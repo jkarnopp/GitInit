@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GitInitTest.SiteSite</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/global.min.css" asp-append-version="true" />
+    </environment>
+    @RenderSection("Head", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light border-bottom box-shadow fixed-top bg-light">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GitInitTest.SiteSite</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-md-inline-flex flex-md-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index"><span class="fa fa-cog"></span> Admin</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+
+            @RenderBody()
+        </main>
+        <footer class="mt-5">
+            <nav class="navbar navbar-default fixed-bottom navbar-light bg-white justify-content-center border-top">
+
+                <div class="text-muted">&copy; @DateTime.Now.Year - <a href="http://www.kartech.com">Kartech LLC </a>- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></div>
+            </nav>
+        </footer>
+    </div>
+
+    <environment include="Development">
+        <script src="~/js/global.js"></script>
+        <script src="~/js/PageScripts/layout.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/PageScripts/layout-min.js"></script>
+    </environment>
+    <script>
+    var baseUrl = '@Url.Content("~/")';
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

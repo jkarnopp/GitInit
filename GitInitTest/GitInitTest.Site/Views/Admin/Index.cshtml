@@ -1,0 +1,29 @@
+﻿@model GitInitTest.Site.ViewModels.BaseViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<br />
+<br />
+<div class="row justify-content-md-center">
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h2>@Model.Title</h2></div>
+
+            @if (Model.Message != null)
+            {
+                <p class="alert-danger text-center">@Model.Message</p>
+            }
+
+            <div class="list-group">
+
+                <a asp-area="" asp-controller="UserInformationAdmin" asp-action="Index" class="list-group-item list-group-item-action"><span class="fas fa-user-astronaut"></span> User Administration</a>
+
+                <a asp-area="" asp-controller="SysConfigs" asp-action="Index" class="list-group-item list-group-item-action"><span class="fas fa-wrench"></span> Edit System Configuration</a>
+            </div>
+
+            <div class="card-footer">&nbsp;</div>
+        </div>
+    </div>
+</div>

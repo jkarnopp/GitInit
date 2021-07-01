@@ -1,0 +1,107 @@
+﻿@model SysConfigViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<br />
+<br />
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <div class="card card-default">
+            <div class="card-header"><h2>@Model.Title</h2></div>
+
+            @if (Model.Message != null)
+            {
+                <p class="alert-danger text-center">@Model.Message</p>
+            }
+
+            <div class="card-body">
+                <form id="editForm" asp-action="Index">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="SysConfig.SysConfigId" />
+                    <div class="form-group">
+                        <label asp-for="SysConfig.AppName" class="control-label"></label>
+                        <input asp-for="SysConfig.AppName" class="form-control" />
+                        <span asp-validation-for="SysConfig.AppName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.DeveloperName" class="control-label"></label>
+                        <input asp-for="SysConfig.DeveloperName" class="form-control" />
+                        <span asp-validation-for="SysConfig.DeveloperName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.DeveloperEmail" class="control-label"></label>
+                        <input asp-for="SysConfig.DeveloperEmail" class="form-control" />
+                        <span asp-validation-for="SysConfig.DeveloperEmail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.BusinessOwnerName" class="control-label"></label>
+                        <input asp-for="SysConfig.BusinessOwnerName" class="form-control" />
+                        <span asp-validation-for="SysConfig.BusinessOwnerName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.BusinessOwnerEmail" class="control-label"></label>
+                        <input asp-for="SysConfig.BusinessOwnerEmail" class="form-control" />
+                        <span asp-validation-for="SysConfig.BusinessOwnerEmail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.AppFromName" class="control-label"></label>
+                        <input asp-for="SysConfig.AppFromName" class="form-control" />
+                        <span asp-validation-for="SysConfig.AppFromName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.AppFromEmail" class="control-label"></label>
+                        <input asp-for="SysConfig.AppFromEmail" class="form-control" />
+                        <span asp-validation-for="SysConfig.AppFromEmail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.SmtpServer" class="control-label"></label>
+                        <input asp-for="SysConfig.SmtpServer" class="form-control" />
+                        <span asp-validation-for="SysConfig.SmtpServer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.SmtpPort" class="control-label"></label>
+                        <input asp-for="SysConfig.SmtpPort" class="form-control" />
+                        <span asp-validation-for="SysConfig.SmtpPort" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.UserAdministratorName" class="control-label"></label>
+                        <input asp-for="SysConfig.UserAdministratorName" class="form-control" />
+                        <span asp-validation-for="SysConfig.UserAdministratorName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SysConfig.UserAdministratorEmail" class="control-label"></label>
+                        <input asp-for="SysConfig.UserAdministratorEmail" class="form-control" />
+                        <span asp-validation-for="SysConfig.UserAdministratorEmail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" asp-for="SysConfig.IsDebug" />
+                        <label asp-for="SysConfig.IsDebug" class="control-label"></label>
+                        <span asp-validation-for="SysConfig.IsDebug" class="text-danger"></span>
+                    </div>
+                    <hr />
+                    <div class="row">
+
+                        <div class="col-md-6"><a asp-controller="Admin" asp-action="Index" class="btn btn-block btn-outline-danger"><span class="fa fa-times"></span> Cancel</a></div>
+
+                        <div class="col-md-6"><a href='#' id="editFormSubmit" class="btn btn-block btn-outline-primary"><span class="fa fa-check"></span> Save</a></div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" asp-controller="Admin">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <environment include="Development">
+        <script src="~/js/PageScripts/SysConfigEdit.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/PageScripts/SysConfigEdit-min.js" asp-append-version="true"></script>
+    </environment>
+}

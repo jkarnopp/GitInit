@@ -1,0 +1,137 @@
+﻿@model UserInfoAdminEditViewModel
+
+<div class="col-md-6 offset-3">
+    <div class="card card-default">
+        <div class="card-header text-center"><h4>@Model.Title</h4></div>
+
+        @if (ViewBag.Message != null)
+        {
+            <p class="alert-danger text-center">@ViewBag.Message</p>
+            <br />
+        }
+        <div class="card-body">
+            <form asp-action="Create" id="editForm">
+                <input type="hidden" name="IsSendToUser" id="IsSendToUser" value="false" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="UserInformation.UserName" class="control-label"></label>
+                            <input asp-for="UserInformation.UserName" id="UserName" class="form-control" />
+                            <span asp-validation-for="UserInformation.UserName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="UserInformation.FirstName" class="control-label"></label>
+                            <input asp-for="UserInformation.FirstName" id="FirstName" class="form-control" />
+                            <span asp-validation-for="UserInformation.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="UserInformation.LastName" class="control-label"></label>
+                            <input asp-for="UserInformation.LastName" id="LastName" class="form-control" />
+                            <span asp-validation-for="UserInformation.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="form-group">
+                    <label asp-for="UserInformation.Email" class="control-label"></label>
+                    <input asp-for="UserInformation.Email" id="Email" class="form-control" />
+                    <span asp-validation-for="UserInformation.Email" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="UserInformation.Password"></label>
+                            <input asp-for="UserInformation.Password" class="form-control" />
+                            <span asp-validation-for="UserInformation.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="UserInformation.ConfirmPassword"></label>
+                            <input asp-for="UserInformation.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="UserInformation.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <div class="checkbox">
+                        <label>
+                            <input id="Enabled" asp-for="UserInformation.IsEnabled" /> @Html.DisplayNameFor(model => model.UserInformation.IsEnabled)
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input id="Enabled" asp-for="UserInformation.EmailConfirmed" /> @Html.DisplayNameFor(model => model.UserInformation.EmailConfirmed)
+                        </label>
+                    </div>
+                </div>
+                <hr />
+
+                <label>Roles</label>
+                <div class="row">
+                    @{
+                        int cnt = 0;
+                        foreach (var userRole in Model.AssignedRoleDatas)
+                        {
+                            if (cnt++ % 3 == 0)
+                            {
+
+                            @:</div><div class="row">
+
+                            }
+
+                            <div class="col-md-4">
+
+                                <input type="checkbox"
+                                       name="selectedUserRoles"
+                                       value="@userRole.Name"
+                                       @(Html.Raw(userRole.Assigned ? "checked=\"checked\"" : "")) />
+                                @userRole.Name
+                            </div>
+
+                        }
+                    }
+                </div>
+                <hr />
+                <div class="row">
+
+                    <div class="col-md-6"><a asp-action="Index" class="btn btn-block btn-outline-danger"><span class="fa fa-times"></span> Cancel</a></div>
+
+                    <div class="col-md-6"><a href='#' id="editFormSubmit" class="btn btn-block btn-outline-primary"><span class="fa fa-check"></span> Save</a></div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <a href='javascript:window.history.back();'>Back to List</a>
+        </div>
+    </div>
+</div>
+
+<!-- Lookup User Modal -->
+
+
+@{await Html.RenderPartialAsync("_NotifyUserYesNoModal");}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <environment include="Development">
+        <script src="~/js/PageScripts/UserInformationEdit.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/PageScripts/UserInformationEdit-min.js" asp-append-version="true"></script>
+    </environment>
+}

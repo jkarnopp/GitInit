@@ -1,0 +1,148 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+@model UserInfoAdminIndexViewModel
+
+<div class="col-md-8 offset-2">
+    <div class="card card-default">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-4 pull-left">
+                </div>
+                <div class="col-md-4  text-center">
+                    <h3>@Model.Title</h3>
+                </div>
+                <div class="col-md-4 text-right">
+                    <div>
+                        <a asp-area="" asp-controller="UserInformationAdmin" asp-action="Create" class="btn btn-outline-primary">Create New User</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div class="pull-left">
+
+                <form method="get" asp-action="index" id="indexForm" class="form-inline">
+                    <input type="hidden" name="currentFilter" id="currentFilter" asp-for="PageListAction.CurrentFilter" />
+                    <input type="hidden" name="sortOrder" id="sortOrder" asp-for="PageListAction.CurrentFilter" />
+                    <input type="hidden" name="id" id="id" />
+
+                    <p>
+                        <input asp-for="SearchDto.LastName" id="LastName" name="LastName" class="form-control" placeholder="Find by last name" />
+                        <!--Buttons have to be anchors or the jQuery submit wont work-->
+                        <a value="Search" id="search" class="btn btn-outline-secondary">Search</a>
+                        <a value="Reset" id="reset" class="btn btn-outline-secondary">Reset</a>
+                        (use '*' for a wildcard search)
+                    </p>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover tableFixHead">
+                <tr>
+                    <th>
+                        <a class="sortColumn" href="#" data-value="@Model.SortDto.UserName">User Id</a>
+                    </th>
+
+                    <th>
+                        <a class="sortColumn" href="#" data-value="@Model.SortDto.FirstName">First Name</a>
+                    </th>
+                    <th>
+                        <a class="sortColumn" href="#" data-value="@Model.SortDto.LastName">Last Name</a>
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.UserInformations)
+                {
+                    string selectedRow = "";
+                    if (item.Id == Model.SelectedUserInformation?.Id)
+                    {
+                        selectedRow = "bg-info";
+                    }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+
+                    <a class="select" href="#" data-value="@item.Id">Select</a> |
+                    <a asp-area="" asp-controller="UserInformationAdmin" asp-action="Edit" asp-route-id="@item.UserName">Edit</a> |
+                    <a asp-area="" asp-controller="UserInformationAdmin" asp-action="Delete" asp-route-id="@item.UserName">Delete</a>
+                </td>
+            </tr>
+
+                }
+            </table>
+        </div>
+
+        @*</div>*@
+        <div class="card-footer text-center">
+
+            <div class="text-center">
+                Page @(Model.UserInformations.PageCount < Model.UserInformations.PageNumber ? 0 : Model.UserInformations.PageNumber) of @Model.UserInformations.PageCount
+            </div>
+            <div>
+
+                @Html.PagedListPager(Model.UserInformations, page => Url.Action("Index",
+                    new
+                    {
+                        VName = Model.SearchDto.LastName,
+                        id = "",
+                        page = page,
+                        sortOrder = Model.PageListAction.CurrentSort,
+                        currentFilter = Model.PageListAction.CurrentFilter
+                    }), new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string[] { "pagination justify-content-center" },
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" }
+                    })
+            </div>
+
+            <div class="text-left"><a asp-controller="Admin" asp-action="Index">Back</a></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <br /><br />
+</div>
+<div class="clearfix"></div>
+
+<!-- User Information Detail Modal -->
+@{await Html.RenderPartialAsync("_UserInformationModal");}
+
+@section Head
+{
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/PageStyles/tableFixedHeader.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/PageStyles/tableFixedHeader.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@section Scripts
+{
+    <environment include="Development">
+        <script src="~/js/PageScripts/UserInformationIndex.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/PageScripts/UserInformationIndex-min.js" asp-append-version="true"></script>
+    </environment>
+}

@@ -26,6 +26,7 @@ add-migration -Context ApplicationContext -StartupProject GitInitTest.Site Creat
 
 update-database -context ApplicationContext
 
+
 ```
 
 
